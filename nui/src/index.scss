@@ -42,7 +42,6 @@ $transition-collapse: height $base-collapse-transition-duration ease;
 
 $numberOfMsg: 10;
 
-
 .msg-container {
     @extend .position-absolute, .flex-column-reverse, .d-flex, .container-fluid;
     $base-bg-color: $black;
