@@ -1,12 +1,17 @@
-const $ = require( "jquery" );
-const twemoji = require( "twemoji" );
+/*
+ * Created by MiiMii1205
+ * license MIT
+ */
+
+const $ = require("jquery");
+const twemoji = require("twemoji");
 require('bootstrap/dist/js/bootstrap.bundle');
 
 const markdown = require('markdown-it')({
     html : true,
     xhtmlOut : true,
-    breaks: true,
-    typographer: true
+    breaks : true,
+    typographer : true
 })
 
 const msgTemplate = require("./views/msg-row.pug")
@@ -19,20 +24,6 @@ const EMOJI_PARAMS = {
 
 const MESG_QUEUE = $('#mesg-queue');
 const COLLAPSE_TIME = (0.35 * 1000);
-
-markdown.use(require('markdown-it-emoji'))
-markdown.renderer.rules.emoji = (token, idx) => twemoji.parse(token[idx].content, EMOJI_PARAMS);
-
-document.body.onload = () => {
-    fetch(`https://${GetParentResourceName()}/printerReady`, {
-        method : 'POST',
-        headers : {
-            'Content-Type' : 'application/json; charset=UTF-8',
-        },
-        body : JSON.stringify({ code : 200 })
-    }).then(resp => resp.json()).catch(console.error);
-}
-
 
 function addNewMessage(msg, msgClass, {
     ressourceName,
@@ -72,6 +63,19 @@ function addError(msg, params) {
 
 function addWarn(msg, params) {
     return addNewMessage(msg, 'text-warn text-bold', params);
+}
+
+markdown.use(require('markdown-it-emoji'))
+markdown.renderer.rules.emoji = (token, idx) => twemoji.parse(token[idx].content, EMOJI_PARAMS);
+
+document.body.onload = () => {
+    fetch(`https://${GetParentResourceName()}/printerReady`, {
+        method : 'POST',
+        headers : {
+            'Content-Type' : 'application/json; charset=UTF-8',
+        },
+        body : JSON.stringify({ code : 200 })
+    }).then(resp => resp.json()).catch(console.error);
 }
 
 window.addEventListener('message', (e) => {

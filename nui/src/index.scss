@@ -1,5 +1,10 @@
 @use "sass:math";
 
+/*
+ * Created by MiiMii1205
+ * license MIT
+ */
+
 $td-enable-google-fonts: false;
 
 $blue: #72A1E5;
@@ -19,7 +24,6 @@ $primary: #00AB45;
 $secondary: #00BE6E;
 $success: #3772FF;
 $info: #C0E0DE;
-$warning: #ED6A5A;
 $danger: #ED6A5A;
 $light: #D3F3EE;
 $dark: #403F4C;
@@ -38,9 +42,13 @@ $transition-base: all $base-transition-duration ease-in-out;
 $transition-fade: opacity $base-fade-transition-duration linear;
 $transition-collapse: height $base-collapse-transition-duration ease;
 
+$numberOfMsg: 10;
+
 @import "../node_modules/bootstrap/scss/bootstrap";
 
-$numberOfMsg: 10;
+html, body {
+    @extend .vh-100, .vw-100;
+}
 
 .msg-container {
     @extend .position-absolute, .flex-column-reverse, .d-flex, .container-fluid;
@@ -68,10 +76,6 @@ $numberOfMsg: 10;
     }
 }
 
-html, body {
-    @extend .vh-100, .vw-100;
-}
-
 .msg-row {
     @extend .row, .no-gutters, .d-flex, .flex-row, .px-2, .align-items-baseline;
     $msg-padding: $spacer * 0.125;
@@ -79,7 +83,6 @@ html, body {
     &:first-child {
         margin-bottom: $msg-padding;
     }
-    
     
     & > * {
         @extend .d-none;
@@ -92,6 +95,7 @@ html, body {
         }
     }
     
+    // Makes a nice fadeout effect
     @for $i from 1 through $numberOfMsg {
         
         &:nth-child(#{$i}) {
@@ -107,6 +111,7 @@ html, body {
         }
     }
     
+    // For timestamps
     time {
         @extend .small;
     }

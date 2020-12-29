@@ -4,7 +4,7 @@ game  'gta5'
 
 author 'MiiMii1205'
 description 'A script for printing temporary short client-sided logs'
-version '1.0.0'
+version '1.1.0'
 
 client_script 'Scripts/mesg.lua'
 
