@@ -1,18 +1,31 @@
 {
-    "name": "nui-msg",
-    "version": "1.0.0",
-    "dependencies": {
-        "bootstrap": "^4.5.3",
-        "jquery": "^3.5.1",
-        "markdown-it": "^12.0.4",
-        "markdown-it-emoji": "^2.0.0",
-        "node-emoji": "^1.10.0",
-        "twemoji": "^13.0.1",
-        "uglifyify": "^5.0.2"
+    "name" : "nui-mesgprinter",
+    "description" : "A FiveM script for printing temporary short client-sided logs (NUI component)",
+    "author" : {
+        "name" : "MiiMii1205",
+        "url" : "https://github.com/MiiMii1205"
     },
-    "devDependencies": {
-        "pugify": "^2.2.0",
-        "pugify-html": "^0.1.1",
-        "sass": "^1.30.0"
+    "license" : "MIT",
+    "repository" : "https://github.com/MiiMii1205/mesgprinter",
+    "scripts" : {
+        "full-build" : "npm run js-build && npm run scss-build",
+        "scss-build" : "node_modules/.bin/sass -s compressed ./src/index.scss ./css/index.css",
+        "js-build" : "node_modules/.bin/browserify -t pugify -g uglifyify ./src/index.js -o ./scripts/index.js"
+    },
+    "version" : "1.0.0",
+    "dependencies" : {
+    },
+    "devDependencies" : {
+        "browserify" : "^17.0.0",
+        "pugify" : "^2.2.0",
+        "pugify-html" : "^0.1.1",
+        "sass" : "^1.30.0",
+        "uglifyify" : "^5.0.2",
+        "bootstrap" : "^4.5.3",
+        "jquery" : "^3.5.1",
+        "markdown-it" : "^12.0.4",
+        "markdown-it-emoji" : "^2.0.0",
+        "node-emoji" : "^1.10.0",
+        "twemoji" : "^13.0.1"
     }
 }
