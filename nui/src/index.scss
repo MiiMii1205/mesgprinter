@@ -81,7 +81,7 @@ html, body {
     $msg-padding: $spacer * 0.125;
     
     &:first-child {
-        margin-bottom: $msg-padding;
+        margin-bottom: $msg-padding
     }
     
     & > * {
@@ -93,6 +93,11 @@ html, body {
         p {
             @extend .mb-0;
         }
+    }
+    
+    & *:first-child{
+    
+        margin-right: $msg-padding
     }
     
     // Makes a nice fadeout effect
