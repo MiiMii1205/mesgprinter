@@ -44,7 +44,7 @@ $transition-collapse: height $base-collapse-transition-duration ease;
 
 $numberOfMsg: 10;
 
-@import "../node_modules/bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/bootstrap";
 
 html, body {
     @extend .vh-100, .vw-100;

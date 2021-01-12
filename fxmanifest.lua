@@ -1,6 +1,6 @@
 fx_version 'cerulean'
 
-game  'gta5'
+game 'gta5'
 
 author 'MiiMii1205'
 description 'A script for printing temporary short client-sided logs'
@@ -14,4 +14,6 @@ files {
     'nui/index.html',
     'nui/css/index.css',
     'nui/scripts/index.js',
+    'nui/css/*.css.map',
+    'nui/scripts/*.js.map',
 }
