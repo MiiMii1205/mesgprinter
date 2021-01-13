@@ -84,7 +84,7 @@ export class MessageController {
     }
     
     private addWarn(msg: any, params: IMessageOptions): void {
-        return this.addNewMessage(msg, 'text-warn text-bold', params);
+        return this.addNewMessage(msg, 'text-warning text-bold', params);
     }
     
     private addNewMessage(msg: any, msgClass: string, {
