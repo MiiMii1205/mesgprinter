@@ -12,8 +12,8 @@ ui_page 'nui/index.html'
 
 files {
     'nui/index.html',
-    'nui/css/index.css',
-    'nui/scripts/index.js',
+    'nui/css/*.css',
+    'nui/scripts/*.js',
     'nui/css/*.css.map',
     'nui/scripts/*.js.map',
 }
