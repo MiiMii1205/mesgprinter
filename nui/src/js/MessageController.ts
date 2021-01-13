@@ -80,11 +80,11 @@ export class MessageController {
     }
     
     private addError(msg: any, params: IMessageOptions): void {
-        return this.addNewMessage(msg, 'text-danger text-bold', params);
+        return this.addNewMessage(msg, 'text-danger font-weight-bold', params);
     }
     
     private addWarn(msg: any, params: IMessageOptions): void {
-        return this.addNewMessage(msg, 'text-warning text-bold', params);
+        return this.addNewMessage(msg, 'text-warning font-weight-bold', params);
     }
     
     private addNewMessage(msg: any, msgClass: string, {
