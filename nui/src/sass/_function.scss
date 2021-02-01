@@ -1,0 +1,101 @@
+//there will be two curves:
+//    1. a sat curve
+//    2. a lightness curve
+//
+//In one curve,
+//    X is hue (0..1)
+//    y is the actual value (0..1)
+
+@function lerp($a, $b, $t) {
+    @return $a + ($b -$a) * $t
+}
+
+@function cubic($a, $b, $t) {
+    
+    $tval: -1+(4-2*$t)*$t;
+    
+    @if ($t < .5) {
+        $tval: 2*$t*$t;
+    }
+    
+    @return lerp($a, $b, $tval);
+    
+}
+
+// Tint a color: mix a color with white
+@function tint-color($color, $weight) {
+    @return mix(white, $color, $weight);
+}
+
+// Shade a color: mix a color with black
+@function shade-color($color, $weight) {
+    @return mix(black, $color, $weight);
+}
+
+// Shade the color if the weight is positive, else tint it
+@function shift-color($color, $weight) {
+    @return if($weight > 0, shade-color($color, $weight), tint-color($color, -$weight));
+}
+
+@function evaluateColor($colorToEvaluate, $col1, $col2) {
+    
+    $evalHue: hue($colorToEvaluate);
+    $col1Hue: hue($col1);
+    $col2Hue: hue($col2);
+    
+    $colMin: $col1;
+    $colMax: $col2;
+    
+    $colHue: $evalHue;
+    $colSat: saturation($colorToEvaluate);
+    $colLightness: lightness($colorToEvaluate);
+    
+    @if (hue($col1) > hue($col2)) {
+        $colMin: $col2;
+        $colMax: $col1;
+    }
+    
+    $hueMin: hue($colMin);
+    $hueMax: hue($colMax);
+    
+    @if ($evalHue < $hueMin) {
+        
+        $calcHue: ($evalHue - $hueMin) % 360;
+        $calcMin: 0;
+        $calcMax: ($hueMax - $hueMin) % 360;
+        
+        $calcHue: ($calcHue - $calcMax) % 360;
+        $calcMin: ($calcMin - $calcMax) % 360;
+        $calcMax: 0;
+        
+        
+        $colSat: cubic(saturation($colMax), saturation($colMin), ( $calcHue / $calcMin )/360);
+        $colLightness: cubic(lightness($colMax), lightness($colMin), ( $calcHue / $calcMin )/360);
+        
+        
+    } @else if ($evalHue > $hueMax) {
+        
+        // offset negatives
+        
+        $calcHue: ($evalHue - $hueMax) % 360;
+        $calcMin: ($hueMin - $hueMax) % 360;
+        $calcMax: 0;
+        
+        $colSat: cubic(saturation($colMax), saturation($colMin), ( $calcHue / $calcMin )/360);
+        $colLightness: cubic(lightness($colMax), lightness($colMin), ( $calcHue / $calcMin )/360);
+        
+    } @else {
+        // Just lerp
+        
+        $calcHue: ($evalHue - $hueMin) % 360;
+        $calcMin: 0;
+        $calcMax: ($hueMax - $hueMin) % 360;
+        
+        $colSat: cubic(saturation($colMin), saturation($colMax), ( $calcHue / $calcMax )/360);
+        $colLightness: cubic(lightness($colMin), lightness($colMax), ( $calcHue / $calcMax )/360);
+        
+    }
+    
+    @return hsl($colHue, $colSat, $colLightness);
+    
+}

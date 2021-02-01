@@ -1,38 +1,43 @@
 @use "sass:math";
+@import "sass/function";
 
 /*
  * Created by MiiMii1205
  * license MIT
  */
 
-$td-enable-google-fonts: false;
 
-$blue: #72A1E5;
-$indigo: #6610f2;
-$purple: #6f42c1;
-$pink: #e83e8c;
-$red: #dc3545;
-$orange: #BA5A31;
-$yellow: #ffc107;
-$green: #28a745;
-$teal: #20c997;
-$cyan: #17a2b8;
+$td-enable-google-fonts: true;
+
+$firefighter: #DB2626;
+$police: #0F75BC;
+$paramedic: #1E962E;
+$civil: #DAA215;
+$general: #0F111D;
+
+$blue: $police;
+$red: $firefighter;
+$green: $paramedic;
+$yellow: evaluateColor(#dec959, $red, $green);
+
+$purple: mix(evaluateColor(mix($blue, $red), $red, $green), #f0f, 80%);
+$indigo: mix($purple, $blue);
+$pink: mix(evaluateColor(mix($purple, $red), $red, $green), mix(white, $red, 75%));
+
+$orange: mix($red, $yellow);
+$teal: mix($green, $blue);
+$cyan: mix(mix($teal, $blue), #0ff);
+
 $white: #fff;
 $gray: #888;
 $gray-dark: #333;
-$primary: #00AB45;
-$secondary: #00BE6E;
-$success: #3772FF;
-$info: #C0E0DE;
-$danger: #ED6A5A;
+
+
 $light: #D3F3EE;
 $dark: #403F4C;
 
-$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-$font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-
-$body-bg: transparent;
-$body-color: color-yiq(#343a40);
+$font-family-sans-serif: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$font-family-monospace: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
 $base-transition-duration: .2s;
 $base-fade-transition-duration: .15s;
@@ -44,7 +49,50 @@ $transition-collapse: height $base-collapse-transition-duration ease;
 
 $numberOfMsg: 10;
 
-@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/functions";
+
+$primary: $general;
+$lightnessDiff: lightness(#0f75bc) - lightness(#113f75);
+
+$secondary: shift-color($primary, $lightnessDiff);
+$secondDiff: lightness($primary) - lightness($secondary);
+$mix-p: 90% !default;
+
+@if ($secondDiff  <  ($lightnessDiff/2)) {
+    $secondary: shift-color($primary, -($lightnessDiff));
+}
+
+$danger: mix($red, mix(mix($red, $civil), $orange));
+$warning: mix($civil, mix(mix($red, $civil), $orange), 65%);
+$success: mix(mix($civil, $blue), $green);
+$info: mix(mix($success, $blue, 25%), $cyan);
+
+$yiq-contrasted-threshold: 150 !default;
+
+$body-bg: transparent;
+$body-color: color-yiq(#343a40, black, white);
+
+@import "~bootstrap/scss/variables";
+
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/code";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/transitions";
+@import "~bootstrap/scss/badge";
+
+@import "~bootstrap/scss/utilities/align";
+@import "~bootstrap/scss/utilities/borders";
+@import "~bootstrap/scss/utilities/display";
+@import "~bootstrap/scss/utilities/flex";
+@import "~bootstrap/scss/utilities/interactions";
+@import "~bootstrap/scss/utilities/position";
+@import "~bootstrap/scss/utilities/sizing";
+@import "~bootstrap/scss/utilities/spacing";
+@import "~bootstrap/scss/utilities/text";
+@import "~bootstrap/scss/utilities/visibility";
 
 html, body {
     @extend .vh-100, .vw-100;
@@ -95,8 +143,8 @@ html, body {
         }
     }
     
-    & *:first-child{
-    
+    & *:first-child {
+        
         margin-right: $msg-padding
     }
     
