@@ -28,6 +28,72 @@ end
 ---@return number
 function avg(nbs) return sum(nbs) / #nbs end
 
+function lerp(a, b, t) return a + (b - a) * t end
+
+function cubic(a, b, t)
+    local tval = -1 + (4 - 2 * t) * t;
+    if (t < .5) then
+        tval = 2 * t * t;
+    end
+    return lerp(a, b, tval);
+end
+
+function rgbHexToHsl(r255, g255, b255)
+    return rgb2hsl(r255 / 255, g255 / 255, b255 / 255);
+end
+
+function EvaluateColor(colorToEvaluate, color1, color2)
+    local colMax, colMin = color2, color1;
+    local evalHue, colSat, colLightness = rgbHexToHsl(table.unpack(colorToEvaluate));
+
+    local colMaxHue, colMaxSat, colMaxLightness = rgbHexToHsl(table.unpack(colMax));
+    local colMinHue, colMinSat, colMinLightness = rgbHexToHsl(table.unpack(colMin));
+
+    if (colMinHue > colMaxHue) then
+        colMax, colMin = color1, color2;
+
+        colMaxHue, colMaxSat, colMaxLightness = rgbHexToHsl(table.unpack(colMax));
+        colMinHue, colMinSat, colMinLightness = rgbHexToHsl(table.unpack(colMin));
+    end
+
+    evalHue = evalHue * 360.0;
+    colMaxHue = colMaxHue * 360.0;
+    colMinHue = colMinHue * 360.0;
+
+    if (evalHue < colMinHue) then
+
+        local calcHue = (evalHue - colMinHue) % 360;
+        local calcMin = 0;
+        local calcMax = (colMaxHue - colMinHue) % 360;
+
+        calcHue = (calcHue - calcMax) % 360;
+        calcMin = (calcMin - calcMax) % 360;
+        calcMax = 0
+
+        colSat = cubic(colMaxSat, colMinSat, (calcHue / calcMin) / 360);
+        colLightness = cubic(colMaxLightness, colMinLightness, (calcHue / calcMin) / 360);
+
+    elseif (evalHue > colMaxHue) then
+
+        local calcHue = (evalHue - colMaxHue) % 360;
+        local calcMin = (colMinHue - colMaxHue) % 360;
+
+        colSat = cubic(colMaxSat, colMinSat, (calcHue / calcMin) / 360);
+        colLightness = cubic(colMaxLightness, colMinLightness, (calcHue / calcMin) / 360);
+
+    else
+
+        local calcHue = (evalHue - colMinHue) % 360;
+        local calcMax = (colMaxHue - colMinHue) % 360;
+
+        colSat = cubic(colMinSat, colMaxSat, (calcHue / calcMax) / 360);
+        colLightness = cubic(colMinLightness, colMaxLightness, (calcHue / calcMax) / 360);
+    end
+
+    return table.pack(hsl2rgb(evalHue / 360, colSat, colLightness));
+
+end
+
 function rgb2hsl(r, g, b)
 
     local max = math.max(r, g, b)
@@ -173,7 +239,7 @@ function GetColorFromResourceName(ressourceName)
     local color = cachedColorNames[hash];
 
     if color == nil then
-        color = CalculateColor(string.lower(ressourceName), hash)
+        color = EvaluateColor(CalculateColor(string.lower(ressourceName), hash), { 219, 38, 38 }, { 30, 150, 46 })
         cachedColorNames[hash] = color;
     end
 
