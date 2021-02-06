@@ -22,19 +22,16 @@ export class MessageController {
     
     private constructor(context: Window) {
         context.addEventListener('message', (e) => {this.manageMessage(e)})
-        let markdown = new MarkdownIt({
+        this.mesgQueue = $('#mesg-queue');
+        this.markdown = new MarkdownIt({
             html : true,
             xhtmlOut : true,
             breaks : true,
             typographer : true
         })
         
-        markdown.use(markdownItEmoji)
-        markdown.renderer.rules.emoji = (token: Token[], idx: number) => twemoji.parse(token[idx].content, MessageController.EMOJI_PARAMS);
-        
-        this.markdown = markdown;
-        this.mesgQueue = $('#mesg-queue');
-        
+        this.markdown.use(markdownItEmoji)
+        this.markdown.renderer.rules.emoji = (token: Token[], idx: number) => twemoji.parse(token[idx].content, MessageController.EMOJI_PARAMS);
     }
     
     public static get instance() {
@@ -99,10 +96,11 @@ export class MessageController {
             msgClass,
             msg : this.markdown.render(msg),
             msgTextColorClass : Tools.getContrastingColor(ressourceColor, "badge-dark", "badge-light")
-        })).one('shown.bs.collapse', function (): void {
-            $(this).one('hidden.bs.collapse', function (): void {
-                $(this).remove();
-            })
+        })).one('shown.bs.collapse', (): void => {
+            el.one('hidden.bs.collapse', (): void => {
+                el.collapse('dispose');
+                el.remove();
+            });
         }).prependTo(this.mesgQueue).collapse('hide');
         
         setTimeout(() => {

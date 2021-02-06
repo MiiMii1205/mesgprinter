@@ -22,7 +22,9 @@ module.exports = (env, argv) => {
             path : buildPath,
             filename : path.join('scripts', 'index.js')
         },
-        
+        externals: {
+            jquery: 'jQuery'
+        },
         resolve : {
             extensions : [
                 '.tsx',
