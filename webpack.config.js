@@ -1,44 +1,44 @@
-const path = require('path');
-const buildPath = path.resolve(__dirname, 'nui');
-const sourceDir = path.resolve(__dirname, 'nui', 'src');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require("path");
+const buildPath = path.resolve(__dirname, "nui");
+const sourceDir = path.resolve(__dirname, "nui", "src");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = (env, argv) => {
     
-    let isProd = argv.mode === 'production';
+    let isProd = argv.mode === "production";
     return {
         plugins : [
             new MiniCssExtractPlugin({
                 // Options similar to the same options in webpackOptions.output
                 // both options are optional
-                filename : path.join('css', 'index.css'),
-                chunkFilename : path.join('css', '[id].css'),
+                filename : path.join("css", "index.css"),
+                chunkFilename : path.join("css", "[id].css"),
                 linkType : false
             })
         ],
-        entry : path.join(sourceDir, 'index.ts'),
+        entry : path.join(sourceDir, "index.ts"),
         devtool : "inline-source-map",
         output : {
             path : buildPath,
-            filename : path.join('scripts', 'index.js')
+            filename : path.join("scripts", "index.js")
         },
-        externals: {
-            jquery: 'jQuery'
+        externals : {
+            jquery : "jQuery"
         },
         resolve : {
             extensions : [
-                '.tsx',
-                '.ts',
-                '.js',
-                '.pug'
+                ".tsx",
+                ".ts",
+                ".js",
+                ".pug"
             ]
         },
         
         resolveLoader : {
             modules : [
-                path.resolve(__dirname, 'node_modules'),
-                path.resolve(buildPath, 'node_modules'),
-                'node_modules'
+                path.resolve(__dirname, "node_modules"),
+                path.resolve(buildPath, "node_modules"),
+                "node_modules"
             ]
         },
         
@@ -46,7 +46,7 @@ module.exports = (env, argv) => {
             minimize : isProd
         },
         
-        mode : 'development',
+        mode : "development",
         
         module : {
             rules : [
@@ -62,10 +62,10 @@ module.exports = (env, argv) => {
                         {
                             loader : "pug-loader",
                             options : {
-                                pretty : !isProd,
+                                pretty : !isProd
                             }
                         }
-                    ],
+                    ]
                 },
                 
                 {
@@ -78,7 +78,7 @@ module.exports = (env, argv) => {
                             options : {
                                 implementation : require("sass"),
                                 sassOptions : {
-                                    outputStyle : isProd ? "compressed" : "expanded",
+                                    outputStyle : isProd ? "compressed" : "expanded"
                                 }
                             }
                         }
@@ -87,18 +87,18 @@ module.exports = (env, argv) => {
                 
                 {
                     test : /\.(png|jpe?g|gif|otf)$/i,
-                    type : 'asset/resource'
+                    type : "asset/resource"
                 },
                 
                 {
                     test : /\.tsx?$/,
                     use : [
-                        'ts-loader'
+                        "ts-loader"
                     ],
-                    exclude : /node_modules/,
-                },
+                    exclude : /node_modules/
+                }
             ]
-        },
+        }
         
     };
-}
+};

@@ -6,7 +6,6 @@
  * license MIT
  */
 
-
 $td-enable-google-fonts: true;
 
 $firefighter: #DB2626;
@@ -18,26 +17,25 @@ $general: #0F111D;
 $blue: $police;
 $red: $firefighter;
 $green: $paramedic;
-$yellow: evaluateColor(#dec959, $red, $green);
+$yellow: evaluateColor(#DEC959, $red, $green);
 
-$purple: mix(evaluateColor(mix($blue, $red), $red, $green), #f0f, 80%);
+$purple: mix(evaluateColor(mix($blue, $red), $red, $green), #F0F, 80%);
 $indigo: mix($purple, $blue);
 $pink: mix(evaluateColor(mix($purple, $red), $red, $green), mix(white, $red, 75%));
 
 $orange: mix($red, $yellow);
 $teal: mix($green, $blue);
-$cyan: mix(mix($teal, $blue), #0ff);
+$cyan: mix(mix($teal, $blue), #0FF);
 
-$white: #fff;
+$white: #FFF;
 $gray: #888;
 $gray-dark: #333;
-
 
 $light: #D3F3EE;
 $dark: #403F4C;
 
 $font-family-sans-serif: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-$font-family-monospace: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+$font-family-monospace: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
 $base-transition-duration: .2s;
 $base-fade-transition-duration: .15s;
@@ -52,7 +50,7 @@ $numberOfMsg: 10;
 @import "~bootstrap/scss/functions";
 
 $primary: $general;
-$lightnessDiff: lightness(#0f75bc) - lightness(#113f75);
+$lightnessDiff: lightness(#0F75BC) - lightness(#113F75);
 
 $secondary: shift-color($primary, $lightnessDiff);
 $secondDiff: lightness($primary) - lightness($secondary);
@@ -70,7 +68,7 @@ $info: mix(mix($success, $blue, 25%), $cyan);
 $yiq-contrasted-threshold: 150 !default;
 
 $body-bg: transparent;
-$body-color: color-yiq(#343a40, black, white);
+$body-color: color-yiq(#343A40, black, white);
 
 @import "~bootstrap/scss/variables";
 
@@ -103,21 +101,21 @@ html, body {
     $base-bg-color: $black;
     $transp-bg-color: rgba($base-bg-color, 0);
     
-    color: color-yiq($base-bg-color);
+    background-clip: content-box;
     $padding-msg: 2 * 100% / $grid-columns;
     
-    margin-left: $padding-msg;
-    
-    left: 0;
-    width: 100% - $padding-msg;
-    padding-right: 0;
-    bottom: 0;
-    height: auto;
-    overflow: visible;
-    background-clip: content-box;
     background-image: linear-gradient(0deg, transparentize($base-bg-color, 0.5) 0, transparentize($base-bg-color, 1-0.025) 90%, $transp-bg-color 100%);
+    
+    bottom: 0;
+    color: color-yiq($base-bg-color);
+    height: auto;
+    left: 0;
+    margin-left: $padding-msg;
     opacity: 1;
+    overflow: visible;
+    padding-right: 0;
     transition: $transition-fade;
+    width: 100% - $padding-msg;
     
     &:empty {
         opacity: 0;
@@ -170,7 +168,6 @@ html, body {
     }
     
 }
-
 
 .emoji {
     @extend .mx-1, .my-0;

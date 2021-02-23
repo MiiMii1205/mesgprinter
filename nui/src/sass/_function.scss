@@ -68,10 +68,8 @@
         $calcMin: ($calcMin - $calcMax) % 360;
         $calcMax: 0;
         
-        
         $colSat: cubic(saturation($colMax), saturation($colMin), ( $calcHue / $calcMin )/360);
         $colLightness: cubic(lightness($colMax), lightness($colMin), ( $calcHue / $calcMin )/360);
-        
         
     } @else if ($evalHue > $hueMax) {
         

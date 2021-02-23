@@ -5,17 +5,17 @@
         "paths" : {
             "*" : [ "types/*" ]
         },
-        "noImplicitAny": false,
-        "module": "commonjs",
-        "target": "es6",
-        "allowJs": true,
+        "noImplicitAny" : false,
+        "module" : "commonjs",
+        "target" : "es6",
+        "allowJs" : true,
         "lib" : [ "es2017", "dom" ],
         "types" : [ "@citizenfx/client", "@types/node" ],
         "moduleResolution" : "node",
         "resolveJsonModule" : true,
         "esModuleInterop" : true,
- 
-        "sourceMap" : true,
+        
+        "sourceMap" : true
     },
     "include" : [ "./**/*" ],
     "exclude" : [ "**/node_modules", "**/__tests__/*" ]

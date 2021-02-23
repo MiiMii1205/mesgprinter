@@ -1,7 +1,7 @@
 import { IMesgPrinterMessageEventArgs, IMessageOptions } from "./IMessageOptions";
 import $ from "jquery";
 import msgTemplate from "../views/msg-row.pug";
-import { Tools } from "./tools";
+import { Tools } from "./Tools";
 import MarkdownIt from "markdown-it";
 import twemoji from "twemoji";
 import markdownItEmoji from "markdown-it-emoji";
@@ -13,24 +13,24 @@ export class MessageController {
     private static readonly COLLAPSE_TIME: number = (0.35 * 1000);
     private static inst: MessageController;
     private static readonly EMOJI_PARAMS: Partial<twemoji.ParseObject> = {
-        folder : 'svg',
-        ext : '.svg'
+        folder : "svg",
+        ext : ".svg"
     };
     private static readonly PARENT_RESOURCE_NAME: string = GetParentResourceName();
     private mesgQueue: JQuery<HTMLElement>;
     private markdown: MarkdownIt;
     
     private constructor(context: Window) {
-        context.addEventListener('message', (e) => {this.manageMessage(e)})
-        this.mesgQueue = $('#mesg-queue');
+        context.addEventListener("message", (e) => {this.manageMessage(e);});
+        this.mesgQueue = $("#mesg-queue");
         this.markdown = new MarkdownIt({
             html : true,
             xhtmlOut : true,
             breaks : true,
             typographer : true
-        })
+        });
         
-        this.markdown.use(markdownItEmoji)
+        this.markdown.use(markdownItEmoji);
         this.markdown.renderer.rules.emoji = (token: Token[], idx: number) => twemoji.parse(token[idx].content, MessageController.EMOJI_PARAMS);
     }
     
@@ -44,9 +44,9 @@ export class MessageController {
     
     public static init(): void {
         fetch(`https://${MessageController.PARENT_RESOURCE_NAME}/${MesgPrinterConstants.PRINTER_READY_EVENT_NAME}`, {
-            method : 'POST',
+            method : "POST",
             headers : {
-                'Content-Type' : 'application/json; charset=UTF-8',
+                "Content-Type" : "application/json; charset=UTF-8"
             },
             body : JSON.stringify({ code : 200 })
         }).then(() => {
@@ -73,15 +73,15 @@ export class MessageController {
     }
     
     private addMessage(msg: any, params: IMessageOptions): void {
-        return this.addNewMessage(msg, 'text-light', params);
+        return this.addNewMessage(msg, "text-light", params);
     }
     
     private addError(msg: any, params: IMessageOptions): void {
-        return this.addNewMessage(msg, 'text-danger font-weight-bold', params);
+        return this.addNewMessage(msg, "text-danger font-weight-bold", params);
     }
     
     private addWarn(msg: any, params: IMessageOptions): void {
-        return this.addNewMessage(msg, 'text-warning font-weight-bold', params);
+        return this.addNewMessage(msg, "text-warning font-weight-bold", params);
     }
     
     private addNewMessage(msg: any, msgClass: string, {
@@ -96,20 +96,20 @@ export class MessageController {
             msgClass,
             msg : this.markdown.render(msg),
             msgTextColorClass : Tools.getContrastingColor(ressourceColor, "badge-dark", "badge-light")
-        })).one('shown.bs.collapse', (): void => {
-            el.one('hidden.bs.collapse', (): void => {
-                el.collapse('dispose');
+        })).one("shown.bs.collapse", (): void => {
+            el.one("hidden.bs.collapse", (): void => {
+                el.collapse("dispose");
                 el.remove();
             });
-        }).prependTo(this.mesgQueue).collapse('hide');
+        }).prependTo(this.mesgQueue).collapse("hide");
         
         setTimeout(() => {
-            el.collapse('hide')
-        }, holdTime + MessageController.COLLAPSE_TIME)
+            el.collapse("hide");
+        }, holdTime + MessageController.COLLAPSE_TIME);
         
         setTimeout(() => {
-            el.collapse('show');
-        }, 1)
+            el.collapse("show");
+        }, 1);
         
     }
     
