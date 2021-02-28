@@ -1,3 +1,5 @@
+import { MesgPrinterMessageTypes } from "./MesgPrinterMessageTypes";
+
 export interface IMessageOptions {
     ressourceName: string;
     ressourceColor: ColorArray;

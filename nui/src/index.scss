@@ -71,26 +71,21 @@ $body-bg: transparent;
 $body-color: color-yiq(#343A40, black, white);
 
 @import "~bootstrap/scss/variables";
-
 @import "~bootstrap/scss/mixins";
+
 @import "~bootstrap/scss/root";
 @import "~bootstrap/scss/reboot";
 @import "~bootstrap/scss/type";
-@import "~bootstrap/scss/code";
+@import "~bootstrap/scss/containers";
 @import "~bootstrap/scss/grid";
 @import "~bootstrap/scss/transitions";
+@import "~bootstrap/scss/accordion";
 @import "~bootstrap/scss/badge";
+@import "~bootstrap/scss/spinners";
 
-@import "~bootstrap/scss/utilities/align";
-@import "~bootstrap/scss/utilities/borders";
-@import "~bootstrap/scss/utilities/display";
-@import "~bootstrap/scss/utilities/flex";
-@import "~bootstrap/scss/utilities/interactions";
-@import "~bootstrap/scss/utilities/position";
-@import "~bootstrap/scss/utilities/sizing";
-@import "~bootstrap/scss/utilities/spacing";
-@import "~bootstrap/scss/utilities/text";
-@import "~bootstrap/scss/utilities/visibility";
+@import "~bootstrap/scss/helpers";
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/utilities/api";
 
 html, body {
     @extend .vh-100, .vw-100;
@@ -123,7 +118,7 @@ html, body {
 }
 
 .msg-row {
-    @extend .row, .no-gutters, .d-flex, .flex-row, .px-2, .align-items-baseline;
+    @extend .row, .g-0, .d-flex, .flex-row, .px-2, .align-items-baseline;
     $msg-padding: $spacer * 0.125;
     
     &:first-child {

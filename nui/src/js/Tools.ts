@@ -10,7 +10,7 @@ export class Tools {
         b /= 255;
         g /= 255;
         
-        r = (r <= 0.03928) ? r / 12.92 : Math.pow(((r + 0.055) / 1.055), 2.4);
+        r = ((r <= 0.03928) ? r / 12.92 : Math.pow(((r + 0.055) / 1.055), 2.4));
         g = (g <= 0.03928) ? g / 12.92 : Math.pow(((g + 0.055) / 1.055), 2.4);
         b = (b <= 0.03928) ? b / 12.92 : Math.pow(((b + 0.055) / 1.055), 2.4);
         
@@ -23,4 +23,9 @@ export class Tools {
         return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
     }
     
+    public static parseToHTML(s: string): Element {
+        let tmp: Document = document.implementation.createHTMLDocument();
+        tmp.body.innerHTML = s;
+        return tmp.body.children[0];
+    }
 }

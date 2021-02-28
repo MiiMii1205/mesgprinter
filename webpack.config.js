@@ -23,7 +23,8 @@ module.exports = (env, argv) => {
             filename : path.join("scripts", "index.js")
         },
         externals : {
-            jquery : "jQuery"
+            twemoji : "twemoji",
+            "markdown-it" : "markdownit"
         },
         resolve : {
             extensions : [

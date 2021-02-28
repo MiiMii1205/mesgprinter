@@ -5,8 +5,9 @@
 
 -- Constants --
 HOLD_TIME = 5000; -- In ms --
-STARTUP_STRING = ('%s v%s initialized'):format(GetCurrentResourceName(), GetResourceMetadata(GetCurrentResourceName(), 'version', 0))
-STARTUP_HTML_STRING = (':page_with_curl: **%s** <small>v%s</small> initialized'):format(GetCurrentResourceName(), GetResourceMetadata(GetCurrentResourceName(), 'version', 0))
+RESOURCE_NAME = GetCurrentResourceName();
+STARTUP_STRING = ('%s v%s initialized'):format(RESOURCE_NAME, GetResourceMetadata(RESOURCE_NAME, 'version', 0))
+STARTUP_HTML_STRING = (':page_with_curl: **%s** <small>v%s</small> initialized'):format(RESOURCE_NAME, GetResourceMetadata(RESOURCE_NAME, 'version', 0))
 
 -- Variables --
 local cachedColorNames = {}
@@ -289,7 +290,7 @@ end)
 
 RegisterNUICallback('printerReady', function(data, cb)
     print(STARTUP_STRING);
-    TriggerEvent('msgprinter:addMessage', STARTUP_HTML_STRING, GetCurrentResourceName());
+    TriggerEvent('msgprinter:addMessage', STARTUP_HTML_STRING, RESOURCE_NAME);
 
     return cb(data)
 end)

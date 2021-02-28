@@ -1,5 +1,4 @@
 import { IMesgPrinterMessageEventArgs, IMessageOptions } from "./IMessageOptions";
-import $ from "jquery";
 import msgTemplate from "../views/msg-row.pug";
 import { Tools } from "./Tools";
 import MarkdownIt from "markdown-it";
@@ -7,6 +6,8 @@ import twemoji from "twemoji";
 import markdownItEmoji from "markdown-it-emoji";
 import Token from "markdown-it/lib/token";
 import { MesgPrinterConstants } from "./IMesgPrinterConstants";
+import { MesgPrinterMessageTypes } from "./MesgPrinterMessageTypes";
+import { Collapse } from "bootstrap";
 
 export class MessageController {
     
@@ -17,12 +18,12 @@ export class MessageController {
         ext : ".svg"
     };
     private static readonly PARENT_RESOURCE_NAME: string = GetParentResourceName();
-    private mesgQueue: JQuery<HTMLElement>;
+    private mesgQueue: Element;
     private markdown: MarkdownIt;
     
     private constructor(context: Window) {
-        context.addEventListener("message", (e) => {this.manageMessage(e);});
-        this.mesgQueue = $("#mesg-queue");
+        context.addEventListener("message", this.manageMessage.bind(this));
+        this.mesgQueue = document.getElementById("mesg-queue");
         this.markdown = new MarkdownIt({
             html : true,
             xhtmlOut : true,
@@ -31,7 +32,7 @@ export class MessageController {
         });
         
         this.markdown.use(markdownItEmoji);
-        this.markdown.renderer.rules.emoji = (token: Token[], idx: number) => twemoji.parse(token[idx].content, MessageController.EMOJI_PARAMS);
+        this.markdown.renderer.rules.emoji = (token: Token[], idx: number): string => twemoji.parse(token[idx].content, MessageController.EMOJI_PARAMS);
     }
     
     public static get instance() {
@@ -49,7 +50,7 @@ export class MessageController {
                 "Content-Type" : "application/json; charset=UTF-8"
             },
             body : JSON.stringify({ code : 200 })
-        }).then(() => {
+        }).then((): void => {
             MessageController.inst = MessageController.instance;
         }).catch(console.error);
     }
@@ -57,13 +58,13 @@ export class MessageController {
     private manageMessage(e: MessageEvent<IMesgPrinterMessageEventArgs>): void {
         
         switch (e.data.type) {
-            case "AddMessage":
+            case MesgPrinterMessageTypes.ADD_MESSAGE:
                 this.addMessage(e.data.message, e.data.params);
                 break;
-            case "AddError" :
+            case MesgPrinterMessageTypes.ADD_ERROR :
                 this.addError(e.data.message, e.data.params);
                 break;
-            case "AddWarn" :
+            case MesgPrinterMessageTypes.ADD_WARN :
                 this.addWarn(e.data.message, e.data.params);
                 break;
             default:
@@ -89,26 +90,35 @@ export class MessageController {
         ressourceColor,
         holdTime
     }: IMessageOptions): void {
-        let el = $(msgTemplate({
+        
+        let el: Element = this.mesgQueue.insertBefore(Tools.parseToHTML(msgTemplate({
             id : `${ressourceName}_${Date.now()}`,
             ressourceName,
             rgbHex : Tools.rgbToHex(ressourceColor[0], ressourceColor[1], ressourceColor[2]),
             msgClass,
             msg : this.markdown.render(msg),
             msgTextColorClass : Tools.getContrastingColor(ressourceColor, "badge-dark", "badge-light")
-        })).one("shown.bs.collapse", (): void => {
-            el.one("hidden.bs.collapse", (): void => {
-                el.collapse("dispose");
-                el.remove();
-            });
-        }).prependTo(this.mesgQueue).collapse("hide");
+        })), this.mesgQueue.firstChild);
         
-        setTimeout(() => {
-            el.collapse("hide");
+        let collapsable: Collapse = new Collapse(el, {
+            toggle : false
+        });
+        
+        el.addEventListener("shown.bs.collapse", (): void => {
+            el.addEventListener("hidden.bs.collapse", (): void => {
+                collapsable.dispose();
+                el.parentElement.removeChild(el);
+            }, { once : true });
+        }, { once : true });
+        
+        collapsable.hide();
+        
+        setTimeout((): void => {
+            collapsable.hide();
         }, holdTime + MessageController.COLLAPSE_TIME);
         
-        setTimeout(() => {
-            el.collapse("show");
+        setTimeout((): void => {
+            collapsable.show();
         }, 1);
         
     }
