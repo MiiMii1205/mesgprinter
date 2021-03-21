@@ -1,4 +1,5 @@
 div.msg-row.collapse(id=id)
+    - var dt = new Date();
     .col-md-auto: .badge.rounded-pill(class=msgTextColorClass, style=`background-color: #${rgbHex};`)= ressourceName
     .col(class=msgClass)!= msg
-    time.col-md-auto.align-self-end.text-muted=(new Date()).toLocaleTimeString()
+    time.col-md-auto.align-self-end.text-muted(datetime=dt.toISOString() )=dt.toLocaleTimeString()

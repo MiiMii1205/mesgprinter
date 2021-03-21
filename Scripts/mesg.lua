@@ -260,16 +260,19 @@ end
 
 AddEventHandler('msgprinter:addMessage', function(message, ressourceName, messageColor, holdTime)
 
+    PlaySoundFrontend(-1, "WAYPOINT_SET", "HUD_FRONTEND_DEFAULT_SOUNDSET", 0);
     return SendNUIMessage({
         type = 'AddMessage',
         message = message,
         params = BuildParamsObject(ressourceName, messageColor, holdTime)
     })
 
+
 end)
 
 AddEventHandler('msgprinter:addError', function(error, ressourceName, messageColor, holdTime)
 
+    PlaySoundFrontend(-1, "WAYPOINT_SET", "HUD_FRONTEND_DEFAULT_SOUNDSET", 0);
     return SendNUIMessage({
         type = 'AddError',
         message = error,
@@ -280,6 +283,7 @@ end)
 
 AddEventHandler('msgprinter:addWarn', function(warn, ressourceName, messageColor, holdTime)
 
+    PlaySoundFrontend(-1, "WAYPOINT_SET", "HUD_FRONTEND_DEFAULT_SOUNDSET", 0);
     return SendNUIMessage({
         type = 'AddWarn',
         message = warn,
@@ -294,7 +298,3 @@ RegisterNUICallback('printerReady', function(data, cb)
 
     return cb(data)
 end)
-
-
-
-
