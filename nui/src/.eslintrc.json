@@ -113,8 +113,7 @@
             }, {
                 "selector" : "typeLike",
                 "format" : [ "PascalCase" ]
-            },
-            {
+            }, {
                 "selector" : [ "classProperty", "parameterProperty" ],
                 "modifiers" : [ "public", "static", "readonly" ],
                 "format" : [ "UPPER_CASE" ],
@@ -124,28 +123,27 @@
                 "modifiers" : [ "public", "static" ],
                 "format" : [ "camelCase" ],
                 "leadingUnderscore" : "forbid"
-            },{
+            }, {
                 "selector" : [ "classProperty", "parameterProperty" ],
                 "modifiers" : [ "private", "static" ],
                 "format" : [ "camelCase" ],
                 "leadingUnderscore" : "forbid"
-            },{
+            }, {
                 "selector" : [ "classProperty", "parameterProperty" ],
                 "modifiers" : [ "protected", "static" ],
                 "format" : [ "camelCase" ],
                 "leadingUnderscore" : "forbid"
-            },  {
+            }, {
                 "selector" : [ "classProperty", "parameterProperty" ],
                 "modifiers" : [ "private", "static", "readonly" ],
                 "format" : [ "UPPER_CASE" ],
                 "leadingUnderscore" : "forbid"
-            },{
+            }, {
                 "selector" : [ "classProperty", "parameterProperty" ],
                 "modifiers" : [ "protected", "static", "readonly" ],
                 "format" : [ "UPPER_CASE" ],
                 "leadingUnderscore" : "forbid"
-            },
-            {
+            }, {
                 "selector" : [ "classProperty", "parameterProperty" ],
                 "modifiers" : [ "public" ],
                 "format" : [ "camelCase" ],
