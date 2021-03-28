@@ -5,6 +5,7 @@ game 'gta5'
 author 'MiiMii1205'
 description 'A script for printing temporary short client-sided logs'
 version '1.1.0'
+repository 'https://github.com/MiiMii1205/mesgprinter'
 
 client_script 'Scripts/mesg.lua'
 
